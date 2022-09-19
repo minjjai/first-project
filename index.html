@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <title>로그인</title>
+        <style>
+            .mytitle {
+    
+                text-align: center;
+                padding-top: 50px;
+                margin: auto;
+                border: solid;
+                margin-top: 100px;
+    
+    
+                width: 280px;
+                height: 280px;
+            }
+        </style>
+    </head>
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" type="text/css" href="/css/style.css" />
+    <script src="/js/main.js"></script>
+    <script src="/js/join.js"></script>
+    <script src="/js/login.js">
+    function sign_in() {
+        let username = $("#input-username").val()
+        let password = $("#input-password").val()
+    
+        if (username == "") {
+            $("#help-id-login").text("아이디를 입력해주세요.")
+            $("#input-username").focus()
+            return;
+        } else {
+            $("#help-id-login").text("")
+        }
+    
+        if (password == "") {
+            $("#help-password-login").text("비밀번호를 입력해주세요.")
+            $("#input-password").focus()
+            return;
+        } else {
+            $("#help-password-login").text("")
+        }
+        $.ajax({
+            type: "POST",
+            url: "/sign_in",
+            data: {
+                username_give: username,
+                password_give: password
+            },
+            success: function (response) {
+                if (response['result'] == 'success') {
+                    $.cookie('mytoken', response['token'], {path: '/'});
+                    window.location.replace("/")
+                } else {
+                    alert(response['msg'])
+                }
+            }
+        });
+    }
+    </script>
+    <title>중고동산</title>
+</head>
+
+<body>
+    <div>
+        <h1>중고동산</h1>
+        <p>로그인 페이지</p>
+        <div>
+            <form action="." method="post">
+                <input class="search-txt"  type="text" placeholder="검색어를 입력해 주세요">
+        <button class="search-btn" type="submit">찾기</button>
+            </form>
+        </div>
+    </div>
+    <div class="mytitle">
+        <h1>로그인</h1>
+        <p>ID: <input type="text"/></p>
+        <p>PW: <input type="text"/></p>
+        <button>로그인</button> <button>회원가입</button>
+    </div>
+</body>
+</html>
